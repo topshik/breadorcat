@@ -1,0 +1,14 @@
+# data
+data/
+source_datasets/
+
+# pycharm
+venv/
+.idea/
+
+# tensorboard data
+runs/
+
+# other
+.ipynb_checkpoints
+checkpoint.pth
