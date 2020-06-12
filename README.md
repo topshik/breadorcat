@@ -17,7 +17,7 @@ To start backend:
 virtualenv .env --python=python3.7
 . .env/bin/activate
 pip install -r requirements.txt
-python backend/main.py -p 8080
+python main.py -p 8080
 ```
 
 or
