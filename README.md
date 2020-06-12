@@ -1,5 +1,5 @@
 # Breadorcat
-a
+A web service solving rocket science task - distinguishing cats and bread
 
 ## Model
 
