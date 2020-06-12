@@ -15,13 +15,16 @@ To start backend:
 
 ```bash
 virtualenv .env --python=python3.7
-pip install -r requirements.txt
 . .env/bin/activate
+pip install -r requirements.txt
 python backend/main.py -p 8080
 ```
 
 or
 
 ```bash
+virtualenv .env --python=python3.7
+. .env/bin/activate
+pip install -r requirements.txt
 make runserver
 ```
