@@ -4,6 +4,7 @@ source_datasets/
 
 # pycharm
 venv/
+.env/
 .idea/
 
 # tensorboard data
@@ -12,3 +13,4 @@ runs/
 # other
 .ipynb_checkpoints
 checkpoint.pth
+*.pyc

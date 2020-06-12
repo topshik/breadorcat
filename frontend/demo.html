@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<style>
+    .success {
+        padding: 10px;
+        font-weight: bold;
+        border: 1px solid darkgreen;
+    }
+
+    .failure {
+        padding: 10px;
+        font-weight: bold;
+        color: darkred;
+        border: 1px solid darkred;
+    }
+</style>
+<script type="application/javascript">
+    const appendMessage = function (msg, isError = false) {
+        const respBlock = document.getElementById("request_result");
+        respBlock.innerHTML = `<p class="${isError ? "failure" : "success"}">${(new Date).toLocaleTimeString()}: ${msg}</p>`
+            .concat(respBlock.innerHTML);
+    }
+
+    const handleSubmit = function (e) {
+        e.preventDefault();
+
+        var d = new Date();
+        d.getDate()
+
+        const host = document.getElementById("hostinput").value;
+        const img = document.getElementById("fileinput").files[0];
+
+        fetch(`http://${host}/predict/`, {
+            method: 'POST',
+            body: img
+        }).then(
+            response => response.json()
+        ).then(
+            success => appendMessage(`Response: ${JSON.stringify(success)}`)
+        ).catch(
+            error => appendMessage(`Error: ${JSON.stringify(error)}`, true)
+        );
+
+    };
+</script>
+<form onsubmit="handleSubmit(event)">
+    <input type="text" title="Host" id="hostinput" value="127.0.0.1:8080"/>
+    <input type="file" title="immmmm" id="fileinput"/>
+
+    <input type="submit" title="ok">
+</form>
+<p id="request_result"></p>
+</body>
+</html>
