@@ -12,5 +12,6 @@ runs/
 
 # other
 .ipynb_checkpoints
-checkpoint.pth
+breador.pth
+breador.pth
 *.pyc
