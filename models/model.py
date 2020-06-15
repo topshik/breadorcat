@@ -141,7 +141,7 @@ def evaluate(model_path: str = 'breador.pth') -> None:
 
     transform = transforms.Compose([transforms.Resize((128, 128)),
                                     transforms.ToTensor()])
-    test_dataset = torchvision.datasets.ImageFolder('data/test', transform=transform['test'])
+    test_dataset = torchvision.datasets.ImageFolder('data/test', transform=transform)
     test_loader = DataLoader(test_dataset, batch_size=10, num_workers=4, shuffle=False, pin_memory=True)
 
     vgg16 = torchvision.models.vgg16()
@@ -149,7 +149,6 @@ def evaluate(model_path: str = 'breador.pth') -> None:
     breador_loaded.load_state_dict(torch.load(model_path, map_location='cpu'))
     breador_loaded.to(device)
     breador_loaded.eval()
-    criterion = torch.nn.CrossEntropyLoss()
     correct, total = 0, 0
 
     for j, (images, labels) in enumerate(tqdm(test_loader)):
@@ -159,24 +158,6 @@ def evaluate(model_path: str = 'breador.pth') -> None:
             predictions = probs.max(1)[1]
             total += len(labels)
             correct += (predictions == labels).sum().item()
-            val_loss = criterion(probs, labels)
 
     val_accuracy = 100 * correct / total
     print(f'Validation accuracy: {val_accuracy:.2f}%')
-
-
-def get_label(img: Image.Image):
-    vgg16 = torchvision.models.vgg16()
-    breador_loaded = BreadOr(vgg16)
-    breador_loaded.load_state_dict(torch.load('breador.pth', map_location='cpu'))
-    breador_loaded.eval()
-
-    transform = transforms.Compose([transforms.Resize((128, 128)),
-                                    transforms.ToTensor()])
-    img = transform(img).unsqueeze(dim=0)
-
-    prediction_map = dict(zip([0, 1, 2], ['bread', 'cat', 'other']))
-    probs = breador_loaded(img)
-    prediction = prediction_map[int(probs.max(1)[1][0])]
-
-    return prediction

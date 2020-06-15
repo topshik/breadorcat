@@ -1,8 +1,9 @@
-from aiohttp import web
-from PIL import Image
-import io
+from typing import Tuple
 
-from backend import pipeline
+from aiohttp import web
+
+from backend.pipeline import PredictionHandler
+
 
 @web.middleware
 async def cors_middleware(request, handler):
@@ -17,20 +18,11 @@ async def handle_options(request) -> web.Response:
     return web.Response()
 
 
-async def handle_predict(request: web.Request) -> web.Response:
-    data = await request.read()
-    print(f'got {len(data)} bytes')
-
-    result = pipeline.predict(data)
-
-    print(f'Prediction is {result}')
-    return web.json_response({'prediction': result})
-
-
 def create_app() -> web.Application:
+    prediction_handler = PredictionHandler()
     app = web.Application(middlewares=[cors_middleware])
 
     app.router.add_options('/{tail:.*}', handle_options)
-    app.router.add_post('/predict/', handle_predict)
+    app.router.add_post('/predict/', prediction_handler.handle_predict)
 
     return app
