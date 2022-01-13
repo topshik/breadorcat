@@ -4,7 +4,7 @@ attrs==19.3.0
 chardet==3.0.4
 idna==2.9
 multidict==4.7.5
-Pillow==7.1.2
+Pillow==9.0.0
 uvloop==0.14.0
 yarl==1.4.2
 
